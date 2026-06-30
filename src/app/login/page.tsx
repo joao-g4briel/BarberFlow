@@ -21,6 +21,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const nextPath = params?.next?.startsWith("/dashboard")
     ? params.next
     : "/dashboard";
+  const showDevCredentials = process.env.NODE_ENV !== "production";
 
   return (
     <main className="flex min-h-screen items-center justify-center px-4 py-10">
@@ -32,14 +33,16 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           </Link>
           <CardTitle>Entrar no sistema</CardTitle>
           <CardDescription>
-            Login fake do MVP: {OWNER_EMAIL} / {OWNER_PASSWORD}
+            {showDevCredentials
+              ? `Login fake do MVP: ${OWNER_EMAIL} / ${OWNER_PASSWORD}`
+              : "Acesse com as credenciais configuradas para sua barbearia."}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <LoginForm
             nextPath={nextPath}
-            ownerEmail={OWNER_EMAIL}
-            ownerPassword={OWNER_PASSWORD}
+            ownerEmail={showDevCredentials ? OWNER_EMAIL : ""}
+            ownerPassword={showDevCredentials ? OWNER_PASSWORD : ""}
           />
         </CardContent>
       </Card>

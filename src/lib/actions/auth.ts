@@ -27,7 +27,10 @@ export async function loginAction(
 
   if (!isValidOwnerCredentials(email, password)) {
     return {
-      error: `Use ${OWNER_EMAIL} / ${OWNER_PASSWORD} para entrar neste MVP.`,
+      error:
+        process.env.NODE_ENV === "production"
+          ? "Email ou senha invalidos."
+          : `Use ${OWNER_EMAIL} / ${OWNER_PASSWORD} para entrar neste MVP.`,
     };
   }
 
